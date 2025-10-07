@@ -2,7 +2,8 @@ import discord
 from discord.ext import commands
 import asyncio
 import yt_dlp
-
+import os
+TOKEN = os.getenv("TOKEN")
 # ---------------------
 # CONFIG
 # ---------------------
@@ -221,3 +222,4 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
