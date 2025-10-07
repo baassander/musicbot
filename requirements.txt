@@ -1,3 +1,4 @@
 discord.py==2.4.0
 yt-dlp==2024.10.7
 ffmpeg-python==0.2.0
+PyNaCl==1.5.0
