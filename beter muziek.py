@@ -20,22 +20,27 @@ tasker = None
 # ---------------------
 yt_dlp.utils.bug_reports_message = lambda *args, **kwargs: ''
 
+proxy = os.getenv("108.141.130.146:80")  # bijv. "http://108.141.130.146:80"
+
 ytdl_format_options = {
-    'format': 'bestaudio/best',  # flexibel formaat
+    'format': 'bestaudio/best',
     'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,
-    'ignoreerrors': True,
+    'ignoreerrors': False,
     'logtostderr': False,
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0',  # voor cloud compatibiliteit
+    'source_address': '0.0.0.0',
+    'cookiefile': 'cookies.txt',
     'extract_flat': False,
     'geo_bypass': True,
-    'cookiefile': 'cookies.txt',   # optioneel als je inlog nodig hebt
-    'proxy': 'socks5://USER:PASSWORD@IP:PORT'  # <--- hier je proxy
 }
+
+# Voeg proxy toe als deze beschikbaar is
+if proxy:
+    ytdl_format_options['108.141.130.146:80'] = proxy
 
 ffmpeg_options = {
     'options': '-vn'
@@ -228,6 +233,7 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
 
 
