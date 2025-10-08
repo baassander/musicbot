@@ -3,7 +3,24 @@ from discord.ext import commands
 import asyncio
 import yt_dlp
 import os
+import itertools
 TOKEN = os.getenv("TOKEN")
+
+# Lijst van proxies
+proxies_list = [
+    "http://38.60.91.60:80",
+    "http://213.142.156.97:80",
+    "http://193.31.117.184:80",
+    "http://158.255.77.168:80",
+    "http://41.32.39.7:3128",
+    "http://158.255.77.169:80",
+    "http://133.18.234.13:80",
+    "http://32.223.6.94:80",
+    # Voeg hier je andere proxies toe
+]
+
+proxy_cycle = itertools.cycle(proxies_list)
+
 # ---------------------
 # CONFIG
 # ---------------------
@@ -21,7 +38,7 @@ tasker = None
 yt_dlp.utils.bug_reports_message = lambda *args, **kwargs: ''
 
 # Haal de proxy op via de environment variable 'PROXY'
-proxy = os.getenv("PROXY")  # geeft "http://108.141.130.146:80"
+#proxy = os.getenv("PROXY")  # geeft "http://108.141.130.146:80"
 
 ytdl_format_options = {
     'format': 'bestaudio/best',
@@ -62,21 +79,29 @@ class YTDLSource(discord.PCMVolumeTransformer):
         self.title = data.get('title', 'Onbekend nummer')
         self.duration = data.get('duration', 0)
 
-    @classmethod
-    async def from_url(cls, url, *, stream=True):
+@classmethod
+async def from_url(cls, url, *, stream=True):
+    for _ in range(len(proxies_list)):
+        proxy = next(proxy_cycle)
+        ytdl_format_options['proxy'] = proxy
+        ytdl = yt_dlp.YoutubeDL(ytdl_format_options)
+
         try:
-            # Gebruik asyncio.to_thread() i.p.v. run_in_executor()
             data = await asyncio.to_thread(ytdl.extract_info, url, download=not stream)
             if 'entries' in data:
                 entries = data.get('entries')
                 if not entries:
                     raise Exception("Geen resultaten gevonden op YouTube.")
                 data = entries[0]
-        except Exception as e:
-            raise Exception(f"Fout bij ophalen van YouTube-data: {e}")
 
-        filename = data['url'] if stream else ytdl.prepare_filename(data)
-        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+            filename = data['url'] if stream else ytdl.prepare_filename(data)
+            return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+
+        except Exception as e:
+            print(f"Fout met proxy {proxy}: {e}")
+            continue
+
+    raise Exception("Alle proxies gefaald, geen verbinding mogelijk.")
 
 
 # ---------------------
@@ -236,6 +261,7 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
 
 
