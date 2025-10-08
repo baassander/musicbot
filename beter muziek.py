@@ -79,29 +79,35 @@ class YTDLSource(discord.PCMVolumeTransformer):
         self.title = data.get('title', 'Onbekend nummer')
         self.duration = data.get('duration', 0)
 
-@classmethod
-async def from_url(cls, url, *, stream=True):
-    for _ in range(len(proxies_list)):
-        proxy = next(proxy_cycle)
-        ytdl_format_options['proxy'] = proxy
-        ytdl = yt_dlp.YoutubeDL(ytdl_format_options)
+    @classmethod
+    async def from_url(cls, url, *, stream=True):
+        global proxy_cycle
 
         try:
+            # Pak de volgende proxy uit de lijst
+            proxy = next(proxy_cycle)
+            print(f"🌍 Proxy in gebruik: {proxy}")
+
+            # Maak een kopie van de yt_dlp-opties en voeg de proxy toe
+            ytdl_opts = ytdl_format_options.copy()
+            ytdl_opts["proxy"] = proxy
+            ytdl = yt_dlp.YoutubeDL(ytdl_opts)
+
+            # Download info in aparte thread
             data = await asyncio.to_thread(ytdl.extract_info, url, download=not stream)
+
             if 'entries' in data:
                 entries = data.get('entries')
                 if not entries:
                     raise Exception("Geen resultaten gevonden op YouTube.")
                 data = entries[0]
 
-            filename = data['url'] if stream else ytdl.prepare_filename(data)
-            return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
-
         except Exception as e:
-            print(f"Fout met proxy {proxy}: {e}")
-            continue
+            raise Exception(f"Fout bij ophalen van YouTube-data: {e}")
 
-    raise Exception("Alle proxies gefaald, geen verbinding mogelijk.")
+        filename = data['url'] if stream else ytdl.prepare_filename(data)
+        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+
 
 
 # ---------------------
@@ -261,6 +267,7 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
 
 
