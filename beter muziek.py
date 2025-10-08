@@ -59,8 +59,8 @@ ytdl_format_options = {
 }
 
 # Voeg de proxy correct toe
-if proxy:
-    ytdl_format_options['proxy'] = proxy
+#if proxy:
+#    ytdl_format_options['proxy'] = proxy
 
 ffmpeg_options = {
     'options': '-vn'
@@ -261,6 +261,7 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
 
 
