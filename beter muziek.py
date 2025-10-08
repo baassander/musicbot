@@ -28,8 +28,8 @@ ytdl_format_options = {
     'quiet': True,
     'no_warnings': True,
     'default_search': 'ytsearch',
-    'source_address': '0.0.0.0'
-    'cookiefile': 'cookies.txt'   # <--- voeg dit toe
+    'source_address': '0.0.0.0',
+    'cookiefile': 'cookies.txt' 
 
 }
 
@@ -224,5 +224,6 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
 
