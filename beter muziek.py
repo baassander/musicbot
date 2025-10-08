@@ -32,7 +32,9 @@ ytdl_format_options = {
     'default_search': 'auto',
     'source_address': '0.0.0.0',  # voor cloud compatibiliteit
     'extract_flat': False,
-    'geo_bypass': True
+    'geo_bypass': True,
+    'cookiefile': 'cookies.txt',   # optioneel als je inlog nodig hebt
+    'proxy': 'socks5://USER:PASSWORD@IP:PORT'  # <--- hier je proxy
 }
 
 ffmpeg_options = {
