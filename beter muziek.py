@@ -29,6 +29,8 @@ ytdl_format_options = {
     'no_warnings': True,
     'default_search': 'ytsearch',
     'source_address': '0.0.0.0'
+    'cookiefile': 'cookies.txt'   # <--- voeg dit toe
+
 }
 
 ffmpeg_options = {
@@ -222,4 +224,5 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
