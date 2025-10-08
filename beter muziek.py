@@ -21,20 +21,18 @@ tasker = None
 yt_dlp.utils.bug_reports_message = lambda *args, **kwargs: ''
 
 ytdl_format_options = {
-    'format': 'bestaudio/best[ext=m4a]/bestaudio/best/best',
+    'format': 'bestaudio/best',  # flexibel formaat
     'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,
-    'ignoreerrors': False,
+    'ignoreerrors': True,
     'logtostderr': False,
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0',
-    'cookiefile': 'cookies.txt',
+    'source_address': '0.0.0.0',  # voor cloud compatibiliteit
     'extract_flat': False,
-    'geo_bypass': True,
-    'prefer_insecure': True  # extra optie: om blokkades te vermijden
+    'geo_bypass': True
 }
 
 ffmpeg_options = {
@@ -228,6 +226,7 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
 
 
