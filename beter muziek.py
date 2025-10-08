@@ -20,7 +20,8 @@ tasker = None
 # ---------------------
 yt_dlp.utils.bug_reports_message = lambda *args, **kwargs: ''
 
-proxy = os.getenv("108.141.130.146:80")  # bijv. "http://108.141.130.146:80"
+# Haal de proxy op via de environment variable 'PROXY'
+proxy = os.getenv("PROXY")  # geeft "http://108.141.130.146:80"
 
 ytdl_format_options = {
     'format': 'bestaudio/best',
@@ -38,9 +39,9 @@ ytdl_format_options = {
     'geo_bypass': True,
 }
 
-# Voeg proxy toe als deze beschikbaar is
+# Voeg de proxy correct toe
 if proxy:
-    ytdl_format_options['108.141.130.146:80'] = proxy
+    ytdl_format_options['proxy'] = proxy
 
 ffmpeg_options = {
     'options': '-vn'
@@ -233,6 +234,7 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
 
 
