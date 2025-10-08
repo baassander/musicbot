@@ -36,7 +36,9 @@ ytdl_format_options = {
     'source_address': '0.0.0.0',
     'cookiefile': 'cookies.txt',
     'extract_flat': False,
-    'geo_bypass': True,
+    'geo_bypass': True,   
+    'socket_timeout': 60, 
+    'retries': 5,  
 }
 
 # Voeg de proxy correct toe
@@ -234,6 +236,7 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
 
 
