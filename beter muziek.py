@@ -22,15 +22,18 @@ yt_dlp.utils.bug_reports_message = lambda *args, **kwargs: ''
 
 ytdl_format_options = {
     'format': 'bestaudio/best[ext=m4a]/bestaudio/best',
+    'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,
     'ignoreerrors': False,
+    'logtostderr': False,
     'quiet': True,
     'no_warnings': True,
-    'default_search': 'ytsearch',
+    'default_search': 'auto',
     'source_address': '0.0.0.0',
-    'cookiefile': 'cookies.txt' 
-
+    'cookiefile': 'cookies.txt',
+    'extract_flat': False,
+    'geo_bypass': True
 }
 
 ffmpeg_options = {
@@ -224,6 +227,7 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
 
 
