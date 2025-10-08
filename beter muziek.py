@@ -21,7 +21,7 @@ tasker = None
 yt_dlp.utils.bug_reports_message = lambda *args, **kwargs: ''
 
 ytdl_format_options = {
-    'format': 'bestaudio/best',
+    'format': 'bestaudio/best[ext=m4a]/bestaudio/best',
     'noplaylist': True,
     'nocheckcertificate': True,
     'ignoreerrors': False,
@@ -224,6 +224,7 @@ async def queue(ctx):
 # RUN
 # ---------------------
 bot.run(TOKEN)
+
 
 
 
